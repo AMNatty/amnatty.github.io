@@ -1,476 +1,485 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>PlutoEngine</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <header class="pd-header">
-      <div class="pd-header-segment pd-logo-container">
-        <img class="pd-logo" src="logo-simple.svg" alt="logo" />
+
+<head>
+  <meta charset="utf-8">
+  <title>PlutoEngine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="normalize.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header class="pd-header">
+    <div class="pd-header-segment pd-logo-container">
+      <img class="pd-logo" src="logo-simple.svg" alt="logo" />
+    </div>
+    <div class="pd-header-segment">
+      PlutoEngine
+    </div>
+  </header>
+  <main class="pd-content">
+
+    <section>
+      <h1>
+        Introduction
+      </h1>
+      <div class="pd-section-content">
+        <p>
+          PlutoEngine is a simple modular 2D game engine written in Java.
+        </p>
+        <p>
+          It is primarily designed to power cross-platform desktop games.
+        </p>
+        <p>
+          The rendering engine is built on OpenGL (core profile version 3.3),
+          which allows us to use modern rendering techniques (such as programmable shaders)
+          while supporting older machines. At the moment, Vulkan support is not planned.
+        </p>
       </div>
-      <div class="pd-header-segment">
-        PlutoEngine
+    </section>
+
+    <section>
+      <h1>
+        Case studies
+      </h1>
+      <div class="pd-section-content">
+        <h2>
+          Unity
+        </h2>
+        <p>
+          Unity is a game engine that supports both 2D and 3D games
+          with a large amount of features and plugins.
+        </p>
+        <p>
+          Unity2D has built-in tile and tilemap support, a sprite editor,
+          renderer and a sprite atlas API. Sprites are an integral part of
+          many 2D games and this should be one of the core features of a 2D
+          game engine.
+        </p>
+        <p>
+          Unity uses C#/Mono as its main scripting language, which in our case
+          is nearly impossible to implement as combining Java and C# is very
+          difficult.
+        </p>
+        <h2>
+          Godot
+        </h2>
+        <p>
+          Godot is a relatively new open-source game engine written in C++.
+          Just like Unity, it comes with its own editor, however it also has
+          its own integrated code editor, while in Unity developers usually
+          use either VisualStudio, MonoDevelop, or some other C#-compatible
+          editor.
+        </p>
+        <p>
+          It features various featues designed for 2D games, such as sprites
+          and spritesheets, parallax backgrounds, 2D particles and lights.
+        </p>
+        <p>
+          While equipped for both 2D and 3D graphics, just like Unity,
+          Godot seems to be more 2D-oriented than Unity.
+        </p>
+        <p>
+          Godot uses its own scripting language GDScript, however support for
+          other languages like C# and C++ is present.
+        </p>
       </div>
-    </header>
-    <main class="pd-content">
+    </section>
+    <section>
+      <h1>
+        Engine design
+      </h1>
+      <div class="pd-section-content">
+        <p>
+          The PlutoEngine is designed as a set of modules. Each component is usable
+          separately with the exception of dependencies (here denoted as arrows),
+          which are included transitively.
+        </p>
+        <figure>
+          <img src="assets/arch.png" alt="PlutoEngine library architecture" />
+          <figcaption>
+            PlutoEngine library architecture
+          </figcaption>
+        </figure>
+        <h2>
+          LWJGL
+        </h2>
+        <p>
+          The <a href="https://github.com/LWJGL/lwjgl3">Lightweight Java Game Library 3</a>
+          is a modular set of libraries providing native access to various APIs, such
+          as OpenGL/Vulkan bindings, OpenAL bindings and utilities like
+          <a href="https://github.com/JOML-CI/JOML">JOML (Java OpenGL Math Library)</a>.
+        </p>
+        <p>
+          LWJGL also offers bindings for GLFW, a library simplifying the creation
+          of native windows in a platform-agnostic manner.
+        </p>
+        <h2>
+          PlutoLib
+        </h2>
+        <figure>
+          <img src="assets/plutolib.png" alt="PlutoLib library architecture" />
+          <figcaption>
+            PlutoLib library architecture, items with dashed borders are awaiting implementation
+          </figcaption>
+        </figure>
+        <p>
+          For image loading, Java's built-in <code>ImageIO</code> library can be used
+          to save development time and avoid adding unnecessary complexity to the codebase.
+        </p>
+        <p>
+          <code>PlutoLib</code> should never contain any native code. For that
+          reason, <code>stb</code> is included with <code>PlutoStatic</code>.
+        </p>
+        <h2>
+          PlutoStatic
+        </h2>
+        <figure>
+          <img src="assets/plutostatic.png" alt="PlutoStatic library architecture" />
+          <figcaption>
+            PlutoStatic library architecture, items with dashed borders are awaiting implementation
+          </figcaption>
+        </figure>
+        <p>
 
-      <section>
-        <h1>
-          Introduction
-        </h1>
-        <div class="pd-section-content">
-          <p>
-            PlutoEngine is a simple modular 2D game engine written in Java.
-          </p>
-          <p>
-            It is primarily designed to power cross-platform desktop games.
-          </p>
-          <p>
-            The rendering engine is built on OpenGL (core profile version 3.3),
-            which allows us to use modern rendering techniques (such as programmable shaders)
-            while supporting older machines. At the moment, Vulkan support is not planned.
-          </p>
-        </div>
-      </section>
+        </p>
+        <h2>
+          PlutoTexturing
+        </h2>
+        <figure>
+          <img src="assets/plutotexturing.png" alt="PlutoTexturing library architecture" />
+          <figcaption>
+            PlutoTexturing library architecture, items with dashed borders are awaiting implementation
+          </figcaption>
+        </figure>
+        <p>
+          This library requires further cleanup as there are too many objects
+          created for a single vertex array.
+        </p>
+        <h2>
+          PlutoMesher & PlutoShader
+        </h2>
+        <p>
+          These libraries provide an abstraction around OpenGL's native functions.
+        </p>
+        <h3>PlutoShader</h3>
+        <p>
+          PlutoShader has recently been rewritten to simplify the process
+          of loading and using shaders.
+        </p>
+        <p>
+          Uniforms are automatically resolved based on their Java field names
+          in their shader program class using the Java Reflection API, greatly
+          reducing the amount of code written to create a PlutoEngine shader.
+        </p>
+        <h2>
+          PlutoFramebuffer
+        </h2>
+        <figure>
+          <img src="assets/plutoframebuffer.png" alt="PlutoFramebuffer library architecture" />
+          <figcaption>
+            PlutoFramebuffer library architecture
+          </figcaption>
+        </figure>
+        <p>
+          PlutoFramebuffer provides a simple and lightweight abstraction over
+          OpenGL's framebuffer objects, streamlining the usage of vertex arrays
+          and shaders.
+        </p>
+        <h2>
+          PlutoSpritesheet
+        </h2>
+        <figure>
+          <img src="assets/plutospritesheet.png" alt="PlutoSpritesheet library architecture" />
+          <figcaption>
+            PlutoSpritesheet library architecture, items with dashed borders are awaiting implementation
+          </figcaption>
+        </figure>
+        <h3>
+          Sprite API
+        </h3>
+        <p>
+          Each sprite has a 2D texture it belongs. It will be possible
+        </p>
+        <h3>2D renderer</h3>
+        <p>
+          The 2D renderer has recently been rewritten to use builder-style
+          command chains, removing the need for dozens of function overloads.
+        </p>
+        <p>
+          It works rather well for a small amount of draw calls, however
+          more specialized implementations might be needed for some use
+          cases, especially world rendering.
+        </p>
+        <h3>Tiled spritesheets</h3>
+        <p>
+          Tiled spritesheets provide a simple way to dynamically create
+          a single spritesheet, while automatically expanding when full.
+          The OpenGL implmentation is backed by a framebuffer, allowing
+          the engine to create large stitched textures without leaving
+          the GPU's memory.
+        </p>
+        <h3>Oriented sprites</h3>
+        <p>
+          Many games require to show certain objects (like the player)
+          from multiple sides.
+        </p>
+        <p>
+          This can be easily implemented by either dumping all sides of said
+          sprite into a single spritesheet or creating an array texture
+          (OpenGL 3.0).
+        </p>
+        <h3>Temporal sprites</h3>
+        <p>
+          The same techniques can be used to create animated
+          (here called temporal) sprites, with the only exception being
+          timers needed to implement animation speed control.
+        </p>
+        <h3>Temporal oriented sprites</h3>
+        <p>
+          Finally, some games have sprites that are animated and look
+          differently from each side. Despite being a niche use case,
+          this feature will probably make it through for the API's
+          completness' sake. It should also be relatively easy to implement.
+        </p>
+        <h3>
+          SpriteSkeleton
+        </h3>
+        <p>
+          SpriteSkeleton is an experimental effort to create skeletal animations
+          using sprites, but in order to create skeletons, a serialization format
+          needs to be created, as defining each "limb" in code would be a very
+          tedious task. At the moment, SpriteSkeleton doesn't support skeletal
+          animations, making the API somewhat pointless.
+        </p>
+        <h3>Spritesheet Serialization</h3>
+        <p>
+          Currently it is impossible to serialize and deserialize
+          spritesheets as they are built dynamically on the GPU.
+          In order to retrieve the spritesheet, it has to be
+          dowloaded from the VRAM back to the main system memory,
+          which is not currently implemented in PlutoTexturing.
+        </p>
+        <p>
+          That being said, spritesheet serialization is not a priority
+          at the moment as there is no editor to benefit from this feature.
+        </p>
+        <h2>
+          PlutoGUI
+        </h2>
+        <figure>
+          <img src="assets/plutogui.png" alt="PlutoGUI library architecture" />
+          <figcaption>
+            PlutoGUI library architecture, items with dashed borders are awaiting implementation
+          </figcaption>
+        </figure>
+        <p>
+          PlutoGUI requires a full rewrite. The font renderer is extremely inefficient
+          and by far the slowest part of the engine as each character is treated
+          as a single draw call.
+        </p>
+        <h3>
+          New render pipeline
+        </h3>
+        <p>
+          PlutoGUI will receive a new render pipeline, allowing batch rendering
+          of GUI components by adding components to a list and then generating
+          an optimized list of abstract low-level draw commands, which are
+          then interpreted the renderer.
+        </p>
+        <p>
+          Possibly some parts of the planned <a href="#pd-chapter-tile">Tile Engine API</a>
+          could be utilized.
+        </p>
+        <p>
+          Examples of draw commands:
+        </p>
+        <ul>
+          <li>Go to position &hellip;</li>
+          <li>Change UV coordinates to &hellip;</li>
+          <li>Switch to sprite &hellip;</li>
+          <li>Enable shader effect &hellip;</li>
+          <li>Render mesh &hellip;</li>
+        </ul>
+        <h3>A UI component system</h3>
+        <p>
+          Currently, if you want to render a complex GUI, you need to use the 2D
+          renderer from PlutoSpritesheet and manually handle mouse and keyboard
+          events manually, basically forcing you to implement the entire GUI
+          yourself.
+        </p>
+        <p>
+          A GUI component system would provide a solid abstract foundation for
+          creation of complex user interfaces without the need to handle low
+          level events.
+        </p>
+        <h2>
+          PlutoAudio
+        </h2>
+        <p>
+          Many games use <b>FMOD</b> or <b>Wwise</b> as their audio engine,
+          which are proprietary and unsuitable for an open-source game engine.
+          For that reason, PlutoEngine will provide its own sound engine and use
+          open formats like OGG/Vorbis and Opus.
+        </p>
+        <p>
+          For an audio API, OpenAL is the most viable and accessible solution.
+        </p>
+        <p>
+          Because LWJGL currently does not provide means to read Opus codec streams
+          from OGG files, only OGG/Vorbis support is planned for the foreseeable future.
+        </p>
+        <h2>
+          Other platforms
+        </h2>
+        <p>
+          PlutoEngine was primarily designed to be a desktop game engine and will
+          work across all major operating systems, as long as JVM can be run
+          and LWJGL native libraries compile and run on said platform.
+        </p>
+        <p>
+          At least the following platforms will be supported in the full release:
+        </p>
+        <ul>
+          <li>
+            Linux x64
+          </li>
+          <li>
+            Windows x64
+          </li>
+          <li>
+            macOS x64
+          </li>
+        </ul>
+        <p>
+          Support for aarch64 (ARM64) depends on LWJGL's native libraries,
+          especially GLFW.
+        </p>
+        <h2>
+          PlutoCore
+        </h2>
+        <p>
+          PlutoCore is PlutoEngine's main entry point and greatly reduces
+          the amount of code to get started.
+        </p>
+        <h3>The Application API</h3>
+        <p>
+          The Application API automatically performs all required startup tasks
+          to load necessary modules and create the OpenGL context. Programmers
+          can focus on writing the game logic itself instead.
+        </p>
+        <h3>The Stage API</h3>
+        <figure>
+          <img src="assets/stage.png" alt="PlutoStage's role as an API" />
+        </figure>
+        <p>
+          By far the most important API PlutoEngine has to offer. It is the engine's
+          main programmable part also responsible for asset management.
+        </p>
+        <p>
+          A "stage", in this context, is a set of assets bound together by programming logic,
+          not necessarily a game level. Stage switching and asset management are handled
+          by the engine.
+        </p>
+        <p>
+          It is still very early into development, the progress can be tracked on <a
+            href="https://github.com/493msi/plutoengine/blob/working/NEXT_RELEASE_DRAFT.md">GitHub</a>.
+        </p>
+        <h2 id="pd-chapter-tile">
+          Tile engine/renderer
+        </h2>
+        <p>
+          Many 2D games are tile-based, meaning the world consists of a tile grid.
+          Rendering each tile would be <em>very expensive</em> and wasteful.
+          An optimized tile engine can render draw thousands of tiles in a single draw call,
+          the only bottleneck being the graphics card's ability to fill pixels.
+        </p>
+        <p>
+          There are multiple approaches to achieve this:
+        </p>
+        <ul>
+          <li><span class="pd-strike">GPU instancing</span>
+            (not very suitable for small meshes, such as two triangles forming a quad)</li>
+          <li>Rendering each tile to a texture, which would serve as a cache</li>
+          <li>Generating meshes on the CPU</li>
+          <li><span class="pd-strike">Writing only single coordinates and tile type vertex data, drawing points
+              and converting those points to triangles in a geometry shader</span> (This does not save much processing
+            power)</li>
+          <li>Uploading the tile IDs to the GPU memory and using a lookup table to determine the tile sprite from a
+            spritesheet</li>
+        </ul>
+        <p>
+          These approaches can also be combined, but that seems
+          to be borderline overengineering.
+        </p>
+        <p>
+          A renderer of this kind may eventually make it into PlutoSpritesheet.
+        </p>
+        <h2>
+          Particle system
+        </h2>
+        <p>
+          Particle systems will eventually make it to the engine, probably not
+          in the next two releases.
+        </p>
+        <h2>
+          3D mesh rendering and shaders
+        </h2>
+        <p>
+          While technically possible, rendering of 3D objects is not a priority.
+        </p>
+        <h2>
+          3D model support
+        </h2>
+        <p>
+          3D model support in any shape or form is at the point of writing this
+          <em>not planned</em>.
+        </p>
+        <h2>
+          Editor
+        </h2>
+        <p>
+          Having an editor for each of the engine's features
+          is one of the long term goals of the PlutoEngine
+          project, but currently there is no reason to have
+          one as the stage and particle systems are not implemented
+          yet and the Sprite API is still somewhat incomplete.
+        </p>
+        <p>
+          Creating an editor would also involve creating proper GUI
+          components, which will be unavoidable at some point.
+        </p>
+        <h2>
+          Scripting support
+        </h2>
+        <p>
+          Scripting language support is currently not planned as the engine
+          is designed to be modular and anyone can write their own module in
+          a JVM-based language (Java, Kotlin, &hellip;).
+        </p>
+        <p>
+          Java's Nashorn JavaScript engine would be a good candidate, however
+          is it deprecated.
+        </p>
+        <p>
+          GraalVM is a possible solution for this problem and it requires
+          further research.
+        </p>
+      </div>
+    </section>
+  </main>
+  <footer class="pd-footer">
+    &copy;2021 Natty
+    &middot;
+    <b>PlutoEngine</b> licensed under the <a
+      href="https://raw.githubusercontent.com/493msi/plutoengine/master/LICENSE">MIT license</a>.
+  </footer>
+</body>
 
-      <section>
-        <h1>
-          Case studies
-        </h1>
-        <div class="pd-section-content">
-          <h2>
-            Unity
-          </h2>
-          <p>
-            Unity is a game engine that supports both 2D and 3D games
-            with a large amount of features and plugins.
-          </p>
-          <p>
-            Unity2D has built-in tile and tilemap support, a sprite editor,
-            renderer and a sprite atlas API. Sprites are an integral part of
-            many 2D games and this should be one of the core features of a 2D
-            game engine.
-          </p>
-          <p>
-            Unity uses C#/Mono as its main scripting language, which in our case
-            is nearly impossible to implement as combining Java and C# is very
-            difficult.
-          </p>
-          <h2>
-            Godot
-          </h2>
-          <p>
-            Godot is a relatively new open-source game engine written in C++.
-            Just like Unity, it comes with its own editor, however it also has
-            its own integrated code editor, while in Unity developers usually
-            use either VisualStudio, MonoDevelop, or some other C#-compatible
-            editor.
-          </p>
-          <p>
-            It features various featues designed for 2D games, such as sprites
-            and spritesheets, parallax backgrounds, 2D particles and lights.
-          </p>
-          <p>
-            While equipped for both 2D and 3D graphics, just like Unity,
-            Godot seems to be more 2D-oriented than Unity.
-          </p>
-          <p>
-            Godot uses its own scripting language GDScript, however support for
-            other languages like C# and C++ is present.
-          </p>
-        </div>
-      </section>
-      <section>
-        <h1>
-          Engine design
-        </h1>
-        <div class="pd-section-content">
-          <p>
-            The PlutoEngine is designed as a set of modules. Each component is usable
-            separately with the exception of dependencies (here denoted as arrows),
-            which are included transitively.
-          </p>
-          <figure>
-            <img src="assets/arch.png" alt="PlutoEngine library architecture" />
-            <figcaption>
-              PlutoEngine library architecture
-            </figcaption>
-          </figure>
-          <h2>
-            LWJGL
-          </h2>
-          <p>
-            The <a href="https://github.com/LWJGL/lwjgl3">Lightweight Java Game Library 3</a>
-            is a modular set of libraries providing native access to various APIs, such
-            as OpenGL/Vulkan bindings, OpenAL bindings and utilities like
-            <a href="https://github.com/JOML-CI/JOML">JOML (Java OpenGL Math Library)</a>.
-          </p>
-          <p>
-            LWJGL also offers bindings for GLFW, a library simplifying the creation
-            of native windows in a platform-agnostic manner.
-          </p>
-          <h2>
-            PlutoLib
-          </h2>
-          <figure>
-            <img src="assets/plutolib.png" alt="PlutoLib library architecture" />
-            <figcaption>
-              PlutoLib library architecture, items with dashed borders are awaiting implementation
-            </figcaption>
-          </figure>
-          <p>
-            For image loading, Java's built-in <code>ImageIO</code> library can be used
-            to save development time and avoid adding unnecessary complexity to the codebase.
-          </p>
-          <p>
-            <code>PlutoLib</code> should never contain any native code. For that
-            reason, <code>stb</code> is included with <code>PlutoStatic</code>.
-          </p>
-          <h2>
-            PlutoStatic
-          </h2>
-          <figure>
-            <img src="assets/plutostatic.png" alt="PlutoStatic library architecture" />
-            <figcaption>
-              PlutoStatic library architecture, items with dashed borders are awaiting implementation
-            </figcaption>
-          </figure>
-          <p>
-
-          </p>
-          <h2>
-            PlutoTexturing
-          </h2>
-          <figure>
-            <img src="assets/plutotexturing.png" alt="PlutoTexturing library architecture" />
-            <figcaption>
-              PlutoTexturing library architecture, items with dashed borders are awaiting implementation
-            </figcaption>
-          </figure>
-          <p>
-            This library requires further cleanup as there are too many objects
-            created for a single vertex array.
-          </p>
-          <h2>
-            PlutoMesher & PlutoShader
-          </h2>
-          <p>
-            These libraries provide an abstraction around OpenGL's native functions.
-          </p>
-          <h3>PlutoShader</h3>
-          <p>
-            PlutoShader has recently been rewritten to simplify the process
-            of loading and using shaders.
-          </p>
-          <p>
-            Uniforms are automatically resolved based on their Java field names
-            in their shader program class using the Java Reflection API, greatly
-            reducing the amount of code written to create a PlutoEngine shader.
-          </p>
-          <h2>
-            PlutoFramebuffer
-          </h2>
-          <figure>
-            <img src="assets/plutoframebuffer.png" alt="PlutoFramebuffer library architecture" />
-            <figcaption>
-              PlutoFramebuffer library architecture
-            </figcaption>
-          </figure>
-          <p>
-            PlutoFramebuffer provides a simple and lightweight abstraction over
-            OpenGL's framebuffer objects, streamlining the usage of vertex arrays
-            and shaders.
-          </p>
-          <h2>
-            PlutoSpritesheet
-          </h2>
-          <figure>
-            <img src="assets/plutospritesheet.png" alt="PlutoSpritesheet library architecture" />
-            <figcaption>
-              PlutoSpritesheet library architecture, items with dashed borders are awaiting implementation
-            </figcaption>
-          </figure>
-          <h3>
-            Sprite API
-          </h3>
-          <p>
-            Each sprite has a 2D texture it belongs. It will be possible
-          </p>
-          <h3>2D renderer</h3>
-          <p>
-            The 2D renderer has recently been rewritten to use builder-style
-            command chains, removing the need for dozens of function overloads.
-          </p>
-          <p>
-            It works rather well for a small amount of draw calls, however
-            more specialized implementations might be needed for some use
-            cases, especially world rendering.
-          </p>
-          <h3>Tiled spritesheets</h3>
-          <p>
-            Tiled spritesheets provide a simple way to dynamically create
-            a single spritesheet, while automatically expanding when full.
-            The OpenGL implmentation is backed by a framebuffer, allowing
-            the engine to create large stitched textures without leaving
-            the GPU's memory.
-          </p>
-          <h3>Oriented sprites</h3>
-          <p>
-            Many games require to show certain objects (like the player)
-            from multiple sides.
-          </p>
-          <p>
-            This can be easily implemented by either dumping all sides of said
-            sprite into a single spritesheet or creating an array texture
-            (OpenGL 3.0).
-          </p>
-          <h3>Temporal sprites</h3>
-          <p>
-            The same techniques can be used to create animated
-            (here called temporal) sprites, with the only exception being
-            timers needed to implement animation speed control.
-          </p>
-          <h3>Temporal oriented sprites</h3>
-          <p>
-            Finally, some games have sprites that are animated and look
-            differently from each side. Despite being a niche use case,
-            this feature will probably make it through for the API's
-            completness' sake. It should also be relatively easy to implement.
-          </p>
-          <h3>
-            SpriteSkeleton
-          </h3>
-          <p>
-            SpriteSkeleton is an experimental effort to create skeletal animations
-            using sprites, but in order to create skeletons, a serialization format
-            needs to be created, as defining each "limb" in code would be a very
-            tedious task. At the moment, SpriteSkeleton doesn't support skeletal
-            animations, making the API somewhat pointless.
-          </p>
-          <h3>Spritesheet Serialization</h3>
-          <p>
-            Currently it is impossible to serialize and deserialize
-            spritesheets as they are built dynamically on the GPU.
-            In order to retrieve the spritesheet, it has to be
-            dowloaded from the VRAM back to the main system memory,
-            which is not currently implemented in PlutoTexturing.
-          </p>
-          <p>
-            That being said, spritesheet serialization is not a priority
-            at the moment as there is no editor to benefit from this feature.
-          </p>
-          <h2>
-            PlutoGUI
-          </h2>
-          <figure>
-            <img src="assets/plutogui.png" alt="PlutoGUI library architecture" />
-            <figcaption>
-              PlutoGUI library architecture, items with dashed borders are awaiting implementation
-            </figcaption>
-          </figure>
-          <p>
-            PlutoGUI requires a full rewrite. The font renderer is extremely inefficient
-            and by far the slowest part of the engine as each character is treated
-            as a single draw call.
-          </p>
-          <h3>
-            New render pipeline
-          </h3>
-          <p>
-            PlutoGUI will receive a new render pipeline, allowing batch rendering
-            of GUI components by adding components to a list and then generating
-            an optimized list of abstract low-level draw commands, which are
-            then interpreted the renderer.
-          </p>
-          <p>
-            Possibly some parts of the planned <a href="#pd-chapter-tile">Tile Engine API</a>
-            could be utilized.
-          </p>
-          <p>
-            Examples of draw commands:
-          </p>
-          <ul>
-            <li>Go to position &hellip;</li>
-            <li>Change UV coordinates to &hellip;</li>
-            <li>Switch to sprite &hellip;</li>
-            <li>Enable shader effect &hellip;</li>
-            <li>Render mesh &hellip;</li>
-          </ul>
-          <h3>A UI component system</h3>
-          <p>
-            Currently, if you want to render a complex GUI, you need to use the 2D
-            renderer from PlutoSpritesheet and manually handle mouse and keyboard
-            events manually, basically forcing you to implement the entire GUI
-            yourself.
-          </p>
-          <p>
-            A GUI component system would provide a solid abstract foundation for
-            creation of complex user interfaces without the need to handle low
-            level events.
-          </p>
-          <h2>
-            PlutoAudio
-          </h2>
-          <p>
-            Many games use <b>FMOD</b> or <b>Wwise</b> as their audio engine,
-            which are proprietary and unsuitable for an open-source game engine.
-            For that reason, PlutoEngine will provide its own sound engine and use
-            open formats like OGG/Vorbis and Opus.
-          </p>
-          <p>
-            For an audio API, OpenAL is the most viable and accessible solution.
-          </p>
-          <p>
-            Because LWJGL currently does not provide means to read Opus codec streams
-            from OGG files, only OGG/Vorbis support is planned for the foreseeable future.
-          </p>
-          <h2>
-            Other platforms
-          </h2>
-          <p>
-            PlutoEngine was primarily designed to be a desktop game engine and will
-            work across all major operating systems, as long as JVM can be run
-            and LWJGL native libraries compile and run on said platform.
-          </p>
-          <p>
-            At least the following platforms will be supported in the full release:
-          </p>
-          <ul>
-            <li>
-              Linux x64
-            </li>
-            <li>
-              Windows x64
-            </li>
-            <li>
-              macOS x64
-            </li>
-          </ul>
-          <p>
-            Support for aarch64 (ARM64) depends on LWJGL's native libraries,
-            especially GLFW.
-          </p>
-          <h2>
-            PlutoCore
-          </h2>
-          <p>
-            PlutoCore is PlutoEngine's main entry point and greatly reduces
-            the amount of code to get started.
-          </p>
-          <h3>The Application API</h3>
-          <p>
-            The Application API automatically performs all required startup tasks
-            to load necessary modules and create the OpenGL context. Programmers
-            can focus on writing the game logic itself instead.
-          </p>
-          <h3>The Stage API</h3>
-          <figure>
-            <img src="assets/stage.png" alt="PlutoStage's role as an API" />
-          </figure>
-          <p>
-            By far the most important API PlutoEngine has to offer. It is the engine's
-            main programmable part also responsible for asset management.
-          </p>
-          <p>
-            A "stage", in this context, is a set of assets bound together by programming logic,
-            not necessarily a game level. Stage switching and asset management are handled
-            by the engine.
-          </p>
-          <p>
-            It is still very early into development, the progress can be tracked on <a href="https://github.com/493msi/plutoengine/blob/working/NEXT_RELEASE_DRAFT.md">GitHub</a>.
-          </p>
-          <h2 id="pd-chapter-tile">
-            Tile engine/renderer
-          </h2>
-          <p>
-            Many 2D games are tile-based, meaning the world consists of a tile grid.
-            Rendering each tile would be <em>very expensive</em> and wasteful.
-            An optimized tile engine can render draw thousands of tiles in a single draw call,
-            the only bottleneck being the graphics card's ability to fill pixels.
-          </p>
-          <p>
-            There are multiple approaches to achieve this:
-          </p>
-          <ul>
-            <li><span class="pd-strike">GPU instancing</span>
-              (not very suitable for small meshes, such as two triangles forming a quad)</li>
-            <li>Rendering each tile to a texture, which would serve as a cache</li>
-            <li>Generating meshes on the CPU</li>
-            <li><span class="pd-strike">Writing only single coordinates and tile type vertex data, drawing points
-              and converting those points to triangles in a geometry shader</span> (This does not save much processing power)</li>
-            <li>Uploading the tile IDs to the GPU memory and using a lookup table to determine the tile sprite from a spritesheet</li>
-          </ul>
-          <p>
-            These approaches can also be combined, but that seems
-            to be borderline overengineering.
-          </p>
-          <p>
-            A renderer of this kind may eventually make it into PlutoSpritesheet.
-          </p>
-          <h2>
-            Particle system
-          </h2>
-          <p>
-            Particle systems will eventually make it to the engine, probably not
-            in the next two releases.
-          </p>
-          <h2>
-            3D mesh rendering and shaders
-          </h2>
-          <p>
-            While technically possible, rendering of 3D objects is not a priority.
-          </p>
-          <h2>
-            3D model support
-          </h2>
-          <p>
-            3D model support in any shape or form is at the point of writing this
-            <em>not planned</em>.
-          </p>
-          <h2>
-            Editor
-          </h2>
-          <p>
-            Having an editor for each of the engine's features
-            is one of the long term goals of the PlutoEngine
-            project, but currently there is no reason to have
-            one as the stage and particle systems are not implemented
-            yet and the Sprite API is still somewhat incomplete.
-          </p>
-          <p>
-            Creating an editor would also involve creating proper GUI
-            components, which will be unavoidable at some point.
-          </p>
-          <h2>
-            Scripting support
-          </h2>
-          <p>
-            Scripting language support is currently not planned as the engine
-            is designed to be modular and anyone can write their own module in
-            a JVM-based language (Java, Kotlin, &hellip;).
-          </p>
-          <p>
-            Java's Nashorn JavaScript engine would be a good candidate, however
-            is it deprecated.
-          </p>
-          <p>
-            GraalVM is a possible solution for this problem and it requires
-            further research.
-          </p>
-        </div>
-      </section>
-    </main>
-    <footer class="pd-footer">
-      &copy;2021 Michal Štefáček / Tefek
-      &middot;
-      <b>PlutoEngine</b> licensed under the <a href="https://raw.githubusercontent.com/493msi/plutoengine/master/LICENSE">MIT license</a>.
-    </footer>
-  </body>
 </html>
